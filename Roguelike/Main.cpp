@@ -3,7 +3,7 @@
 
 Game* game = nullptr;
 
-int main(int argc, const char* argv[]) {
+int main(int argc, char* argv[]) {
 
 	const int fps = 60;
 	const int frameDelay = 1000 / fps;
@@ -13,7 +13,7 @@ int main(int argc, const char* argv[]) {
 
 	game = new Game();
 
-	game->init("BirchEngine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, false);
+	game->init("BirchEngine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 640, false);
 
 	while (game->running()) {
 

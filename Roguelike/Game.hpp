@@ -1,5 +1,7 @@
+#pragma once
 #include "SDL.h"
 #undef main
+
 
 
 class Game {
@@ -14,6 +16,7 @@ public:
 	void update();
 	void render();
 	void clean();
+
 
 	bool running() { return isRunning; }
 
