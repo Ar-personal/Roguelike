@@ -1,4 +1,6 @@
 #include "SDL.h"
+#undef main
+
 
 class Game {
 

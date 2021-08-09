@@ -1,5 +1,9 @@
+#include "TextureManager.h"
 #include "Game.hpp"
 #include <iostream>
+
+SDL_Texture* playerTex;
+
 
 Game::Game(){}
 Game::~Game(){}
@@ -26,6 +30,9 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	}else{
 		isRunning = false;
 	}
+
+	playerTex = TextureManager::LoadTexture("assets/player.png", renderer);
+
 }
 
 void Game::handleEvents(){
@@ -45,7 +52,9 @@ void Game::update(){}
 
 void Game::render(){
 	SDL_RenderClear(renderer);
-
+	//
+	SDL_RenderCopy(renderer, playerTex, NULL, NULL),
+	//
 	SDL_RenderPresent(renderer);
 }
 
