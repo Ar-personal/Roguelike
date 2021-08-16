@@ -12,4 +12,8 @@ public:
 
 	static SDL_Point twoDToIso(int x, int y);
 
+
+
 };
+
+

@@ -25,6 +25,9 @@
     <Filter Include="Source Files\ECS\Systems">
       <UniqueIdentifier>{404ed19d-d402-44c5-86db-7260b28a7e8b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Maths">
+      <UniqueIdentifier>{96a494ad-ff55-415a-9ec5-edd0791e402e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.h">
@@ -45,18 +48,30 @@
     <ClCompile Include="Map.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Maths.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PhysicsSystem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="RenderSystem.cpp">
       <Filter>Source Files\ECS\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerControlSystem.cpp">
+      <Filter>Source Files\ECS\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsSystem.cpp">
+      <Filter>Source Files\ECS\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Maths.cpp">
+      <Filter>Source Files\Maths</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector2D.cpp">
+      <Filter>Source Files\Maths</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\player.png">
+      <Filter>assets</Filter>
+    </Image>
+    <Image Include="..\..\..\..\..\Dropbox\My PC %28DESKTOP-4QN0EGJ%29\Downloads\mechsheet.png">
+      <Filter>assets</Filter>
+    </Image>
+    <Image Include="..\..\..\..\..\Dropbox\My PC (DESKTOP-4QN0EGJ)\Downloads\walker1.png">
       <Filter>assets</Filter>
     </Image>
   </ItemGroup>
@@ -68,9 +83,6 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="Map.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Maths.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="SystemManager.h">
@@ -107,6 +119,21 @@
       <Filter>Source Files\ECS\Systems</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
+      <Filter>Source Files\ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyboardInput.h">
+      <Filter>Source Files\ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerControlSystem.h">
+      <Filter>Source Files\ECS\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Maths.h">
+      <Filter>Source Files\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector2D.h">
+      <Filter>Source Files\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprite.h">
       <Filter>Source Files\ECS\Components</Filter>
     </ClInclude>
   </ItemGroup>

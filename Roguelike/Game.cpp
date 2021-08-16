@@ -4,8 +4,10 @@
 #include "Transform.h"
 #include "PhysicsSystem.h"
 #include "Player.h"
+#include "Sprite.h"
 #include "Coordinator.h"
 #include "RenderSystem.h"
+#include "PlayerControlSystem.h"
 
 Map* map;
 
@@ -13,6 +15,8 @@ SDL_Renderer* Game::renderer = nullptr;
 Coordinator gCoordinator;
 std::shared_ptr<PhysicsSystem> physicsSys;
 std::shared_ptr<RenderSystem> renderSys;
+std::shared_ptr<PlayerControlSystem> pControlSys;
+SDL_Event Game::event;
 
 Game::Game(){}
 Game::~Game(){}
@@ -44,9 +48,11 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 
 	gCoordinator.RegisterComponent<Player>();
 	gCoordinator.RegisterComponent<Transform>();
+	gCoordinator.RegisterComponent<Sprite>();
 
 	physicsSys = gCoordinator.RegisterSystem<PhysicsSystem>();
 	renderSys = gCoordinator.RegisterSystem<RenderSystem>();
+	pControlSys = gCoordinator.RegisterSystem <PlayerControlSystem>();
 
 	{
 		Signature signature;
@@ -60,22 +66,20 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 		Signature signature;
 		signature.set(gCoordinator.GetComponentType<Player>());
 		signature.set(gCoordinator.GetComponentType<Transform>());
+		signature.set(gCoordinator.GetComponentType<Sprite>());
 		gCoordinator.SetSystemSignature<RenderSystem>(signature);
 	}
 
 	renderSys->Init();
-	
 
-	//Entity entity = gCoordinator.CreateEntity();
-	//gCoordinator.AddComponent(entity, Player{});
-	//gCoordinator.AddComponent<Transform>(
-	//	entity,
-	//	Transform{
-	//		xpos = 0,
-	//		ypos = 0,
-	//	});
+	{
+		Signature signature;
+		signature.set(gCoordinator.GetComponentType<Transform>());
+		signature.set(gCoordinator.GetComponentType<Player>());
+		gCoordinator.SetSystemSignature<PlayerControlSystem>(signature);
+	}
 
-	std::vector<Entity> entities(MAX_ENTITIES - 1);
+	pControlSys->Init();
 
 	Entity player;
 
@@ -83,40 +87,52 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	
 
 	gCoordinator.AddComponent(
-		player, Player
-		{
+		player, Player{
 		});
 	
 
 	gCoordinator.AddComponent(
 		player, Transform{
-			xpos = 100,
-			ypos = 100
+
 		});
 
-		
 
-	//for (auto& entity : entities)
-	//{
-	//	entity = gCoordinator.CreateEntity();
-	//	gCoordinator.AddComponent(
-	//		entity,
-	//		Transform{
-	//			xpos = 100,
-	//			ypos = 100
-	//		});
+	gCoordinator.AddComponent(
+		player, Sprite{
+			8,
+			TextureManager::LoadTexture("assets/mechsheet.png"),
 
+			0,
+			0,
 
-	//}
+			0,
+			64,
+			
+			0,
+			64 * 2,
 
-	//player = new GameObject("assets/player.png", 0, 0);
+			0,
+			64 * 3,
+			
+			0,
+			64 * 4,
+
+			0,
+			64 * 5,
+
+			0,
+			64 * 6,
+
+			0,
+			64 * 7,
+
+		});
+
 	map = new Map();
-	//physicsSystem->Update();
-
 }
 
 void Game::handleEvents(){
-	SDL_Event event;
+
 	SDL_PollEvent(&event);
 	switch (event.type)
 	{
@@ -130,6 +146,7 @@ void Game::handleEvents(){
 
 void Game::update(){
 	physicsSys->Update();
+	pControlSys->Update();
 }
 
 void Game::render(){

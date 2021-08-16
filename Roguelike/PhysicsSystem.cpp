@@ -17,8 +17,7 @@ void PhysicsSystem::Update()
 		std::cout << "here" << std::endl;
 		auto& transform = gCoordinator.GetComponent<Transform>(entity);
 
-		transform.xpos += 1;
-		transform.ypos += 1;
+
 
 
 	}

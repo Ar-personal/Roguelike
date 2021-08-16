@@ -1,10 +1,9 @@
 #pragma once
-#include "Types.h"
-#include <memory>
-#include "SystemManager.h"
-#include "ECS.h"
 #include "ComponentManager.h"
 #include "EntityManager.h"
+#include "SystemManager.h"
+#include "Types.h"
+#include <memory>
 #include <functional>
 class Coordinator
 {
@@ -90,10 +89,8 @@ public:
 		mSystemManager->SetSignature<T>(signature);
 	}
 
-
 private:
 	std::unique_ptr<ComponentManager> mComponentManager;
 	std::unique_ptr<EntityManager> mEntityManager;
-
 	std::unique_ptr<SystemManager> mSystemManager;
 };

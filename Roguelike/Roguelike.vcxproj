@@ -154,10 +154,14 @@
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Maths.cpp" />
     <ClCompile Include="PhysicsSystem.cpp" />
+    <ClCompile Include="PlayerControlSystem.cpp" />
     <ClCompile Include="RenderSystem.cpp" />
     <ClCompile Include="TextureManager.cpp" />
+    <ClCompile Include="Vector2D.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="..\..\..\..\..\Dropbox\My PC %28DESKTOP-4QN0EGJ%29\Downloads\mechsheet.png" />
+    <Image Include="..\..\..\..\..\Dropbox\My PC (DESKTOP-4QN0EGJ)\Downloads\walker1.png" />
     <Image Include="assets\player.png" />
   </ItemGroup>
   <ItemGroup>
@@ -167,16 +171,20 @@
     <ClInclude Include="ECS.h" />
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="KeyboardInput.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Maths.h" />
     <ClInclude Include="PhysicsSystem.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerControlSystem.h" />
     <ClInclude Include="RenderSystem.h" />
+    <ClInclude Include="Sprite.h" />
     <ClInclude Include="System.h" />
     <ClInclude Include="SystemManager.h" />
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Types.h" />
+    <ClInclude Include="Vector2D.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

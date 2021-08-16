@@ -3,7 +3,6 @@
 #include <bitset>
 #include <cstdint>
 
-
 // Source: https://gist.github.com/Lee-R/3839813
 constexpr std::uint32_t fnv1a_32(char const* s, std::size_t count)
 {
@@ -46,17 +45,17 @@ using ParamId = std::uint32_t;
 // TODO: Make these easier to define and use (macro?)
 // TODO: Add some kind of enforcement/automation that a SetParam type and a GetParam type match
 
-//namespace Events::Window {
-//	const EventId QUIT = "Events::Window::QUIT"_hash;
-//	const EventId RESIZED = "Events::Window::RESIZED"_hash;
-//	const EventId INPUT = "Events::Window::INPUT"_hash;
-//}
-//
-//namespace Events::Window::Input {
-//	const ParamId INPUT = "Events::Window::Input::INPUT"_hash;
-//}
-//
-//namespace Events::Window::Resized {
-//	const ParamId WIDTH = "Events::Window::Resized::WIDTH"_hash;
-//	const ParamId HEIGHT = "Events::Window::Resized::HEIGHT"_hash;
-//}
+namespace Window {
+	const EventId QUIT = "Events::Window::QUIT"_hash;
+	const EventId RESIZED = "Events::Window::RESIZED"_hash;
+	const EventId INPUT = "Events::Window::INPUT"_hash;
+}
+
+namespace Input {
+	const ParamId INPUT = "Events::Window::Input::INPUT"_hash;
+}
+
+namespace Resized {
+	const ParamId WIDTH = "Events::Window::Resized::WIDTH"_hash;
+	const ParamId HEIGHT = "Events::Window::Resized::HEIGHT"_hash;
+}
