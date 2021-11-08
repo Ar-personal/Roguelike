@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -147,6 +147,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CameraSystem.cpp" />
+    <ClCompile Include="CollisionSystem.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Game.h" />
     <ClCompile Include="GameObject.cpp" />
@@ -160,11 +162,15 @@
     <ClCompile Include="Vector2D.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\..\..\Dropbox\My PC %28DESKTOP-4QN0EGJ%29\Downloads\mechsheet.png" />
     <Image Include="..\..\..\..\..\Dropbox\My PC (DESKTOP-4QN0EGJ)\Downloads\walker1.png" />
+    <Image Include="assets\mechsheet.png" />
     <Image Include="assets\player.png" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="CameraSystem.h" />
+    <ClInclude Include="Collision.h" />
+    <ClInclude Include="CollisionSystem.h" />
     <ClInclude Include="ComponentArray.h" />
     <ClInclude Include="ComponentManager.h" />
     <ClInclude Include="Coordinator.h" />
@@ -177,11 +183,18 @@
     <ClInclude Include="PhysicsSystem.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerControlSystem.h" />
+    <ClInclude Include="rapidxml.h" />
+    <ClInclude Include="rapidxml_iterators.h" />
+    <ClInclude Include="rapidxml_print.h" />
+    <ClInclude Include="rapidxml_utils.h" />
     <ClInclude Include="RenderSystem.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="System.h" />
     <ClInclude Include="SystemManager.h" />
     <ClInclude Include="TextureManager.h" />
+    <ClInclude Include="Tile.h" />
+    <ClInclude Include="TileMapParser.h" />
+    <ClInclude Include="Tiler.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Types.h" />
     <ClInclude Include="Vector2D.h" />

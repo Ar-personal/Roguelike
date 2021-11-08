@@ -4,7 +4,9 @@ struct Transform
 {
 	float xpos = 0;
 	float ypos = 0;
+	bool canMove;
 	float speed = 3;
+
 	Vector2D velocity = Vector2D();
 	Vector2D position = Vector2D();
 };

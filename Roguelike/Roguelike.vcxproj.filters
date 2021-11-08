@@ -28,11 +28,14 @@
     <Filter Include="Source Files\Maths">
       <UniqueIdentifier>{96a494ad-ff55-415a-9ec5-edd0791e402e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\rapidxml">
+      <UniqueIdentifier>{eefd62b1-af10-451a-882f-33356b3fea42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Tiles">
+      <UniqueIdentifier>{7a76689f-d342-4ca2-974c-5b5c879f13e1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Game.h">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -63,31 +66,28 @@
     <ClCompile Include="Vector2D.cpp">
       <Filter>Source Files\Maths</Filter>
     </ClCompile>
+    <ClCompile Include="CollisionSystem.cpp">
+      <Filter>Source Files\ECS\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.h">
+      <Filter>Header Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\player.png">
       <Filter>assets</Filter>
     </Image>
-    <Image Include="..\..\..\..\..\Dropbox\My PC %28DESKTOP-4QN0EGJ%29\Downloads\mechsheet.png">
+    <Image Include="..\..\..\..\..\Dropbox\My PC (DESKTOP-4QN0EGJ)\Downloads\walker1.png">
       <Filter>assets</Filter>
     </Image>
-    <Image Include="..\..\..\..\..\Dropbox\My PC (DESKTOP-4QN0EGJ)\Downloads\walker1.png">
+    <Image Include="assets\mechsheet.png">
       <Filter>assets</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="TextureManager.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Map.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SystemManager.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="ComponentArray.h">
       <Filter>Source Files\ECS</Filter>
     </ClInclude>
@@ -135,6 +135,51 @@
     </ClInclude>
     <ClInclude Include="Sprite.h">
       <Filter>Source Files\ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision.h">
+      <Filter>Source Files\ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionSystem.h">
+      <Filter>Source Files\ECS\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Tile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SystemManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rapidxml.h">
+      <Filter>Source Files\rapidxml</Filter>
+    </ClInclude>
+    <ClInclude Include="rapidxml_iterators.h">
+      <Filter>Source Files\rapidxml</Filter>
+    </ClInclude>
+    <ClInclude Include="rapidxml_print.h">
+      <Filter>Source Files\rapidxml</Filter>
+    </ClInclude>
+    <ClInclude Include="rapidxml_utils.h">
+      <Filter>Source Files\rapidxml</Filter>
+    </ClInclude>
+    <ClInclude Include="TileMapParser.h">
+      <Filter>Source Files\Tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Tiler.h">
+      <Filter>Source Files\Tiles</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

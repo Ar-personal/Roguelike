@@ -18,15 +18,13 @@ void RenderSystem::Init()
 void RenderSystem::Render()
 {
 	for (Entity entity : mEntities) {
-		std::cout << "rendering" << std::endl;
 		auto& player = gCoordinator.GetComponent<Player>(entity);
 		auto& transform = gCoordinator.GetComponent<Transform>(entity);
 		auto& sprite = gCoordinator.GetComponent<Sprite>(entity);
 
 
 
-		transform.xpos += (transform.velocity.x * transform.speed);
-		transform.ypos += (transform.velocity.y * transform.speed);
+
 
 		player.srcRect.h = 64;
 		player.srcRect.w = 64;

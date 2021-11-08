@@ -40,6 +40,4 @@ struct Sprite{
 
 
 
-
-
 };

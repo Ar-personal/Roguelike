@@ -17,6 +17,7 @@ void PlayerControlSystem::Update()
 		auto& player = gCoordinator.GetComponent<Player>(entity);
 		auto& transform = gCoordinator.GetComponent<Transform>(entity);
 
+
 			switch (Game::event.type) {
 			case SDL_KEYDOWN:
 				switch (Game::event.key.keysym.sym) {
