@@ -48,7 +48,7 @@
     <ClCompile Include="GameObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Map.cpp">
+    <ClCompile Include="Level.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="RenderSystem.cpp">
@@ -75,6 +75,12 @@
     <ClCompile Include="Game.h">
       <Filter>Header Files</Filter>
     </ClCompile>
+    <ClCompile Include="TileMapParser.cpp">
+      <Filter>Source Files\Tiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Tile.cpp">
+      <Filter>Source Files\Tiles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\player.png">
@@ -84,6 +90,12 @@
       <Filter>assets</Filter>
     </Image>
     <Image Include="assets\mechsheet.png">
+      <Filter>assets</Filter>
+    </Image>
+    <Image Include="assets\iso-64x64-outside.png">
+      <Filter>assets</Filter>
+    </Image>
+    <Image Include="assets\outside.png">
       <Filter>assets</Filter>
     </Image>
   </ItemGroup>
@@ -154,7 +166,7 @@
     <ClInclude Include="SystemManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Map.h">
+    <ClInclude Include="Level.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TextureManager.h">
@@ -181,5 +193,16 @@
     <ClInclude Include="Tiler.h">
       <Filter>Source Files\Tiles</Filter>
     </ClInclude>
+    <ClInclude Include="tileson.hpp">
+      <Filter>Source Files\Tiles</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\testmap.tmx">
+      <Filter>assets</Filter>
+    </None>
+    <None Include="assets\testmap.json">
+      <Filter>assets</Filter>
+    </None>
   </ItemGroup>
 </Project>

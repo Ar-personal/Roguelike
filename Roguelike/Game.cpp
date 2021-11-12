@@ -1,6 +1,6 @@
 #include "Game.h"
 #include <iostream>
-#include "Map.h"
+#include "Level.h"
 #include "Transform.h"
 #include "PhysicsSystem.h"
 #include "Player.h"
@@ -10,11 +10,15 @@
 #include "PlayerControlSystem.h"
 #include "Collision.h"
 #include "CollisionSystem.h"
+#include "TileMapParser.h"
 
-Map* map;
+TileMapParser tileMapParser;
+Level* level;
+std::map<int, std::vector<Tile>> tileMap;
 
 SDL_Renderer* Game::renderer = nullptr;
 Coordinator gCoordinator;
+
 std::shared_ptr<PhysicsSystem> physicsSys;
 std::shared_ptr<RenderSystem> renderSys;
 std::shared_ptr<PlayerControlSystem> pControlSys;
@@ -25,6 +29,9 @@ Game::Game(){}
 Game::~Game(){}
 
 void Game::init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen) {
+
+
+
 	int flags = 0;
 	if (fullscreen) {
 		flags = SDL_WINDOW_FULLSCREEN;
@@ -177,7 +184,10 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 
 		});
 
-	map = new Map();
+
+	std::map<int, std::string> tiles = tileMapParser.GetTileMap("assets/testmap.tmx", 0, 0);
+	level = new Level();
+	tileMap = level->CreateTileMap(tiles, tileMapParser.mapSizeX, tileMapParser.mapSizeY, 64);
 }
 
 void Game::handleEvents(){
@@ -202,7 +212,7 @@ void Game::update(){
 void Game::render(){
 	SDL_RenderClear(renderer);
 	//
-	map->DrawMap();
+	level->DrawMap(tileMap, 25, 25);
 	renderSys->Render();
 	//player->Render();
 	//

@@ -1,17 +1,34 @@
-#pragma once
+#ifndef TileMapParser_h
+#define TileMapParser_h
+#include <unordered_map>
+#include <sstream>
+#include "rapidxml.h"
+#include "rapidxml_utils.h"
+#include "Tile.h"
+#include <string>
+#include <map>
+using namespace rapidxml;
+
 
 class TileMapParser
 {
 public:
-	TileMapParser(ResourceAllocator<sf::Texture>& textureAllocator);
-	std::vector<std::shared_ptr<Object>>
-		Parse(const std::string& file, sf::Vector2i offset);
+	int textureId; // The id of the tile sets texture. 
+	int mapSizeX;
+	int mapSizeY;
+	int columns; // How many columns in the tile sheet.
+	int rows; // How many rows in the tile sheet.
+	int tileSizeX;
+	int tileSizeY;
+
+		TileMapParser();
+		std::map<int, std::string> GetTileMap(const std::string& file, int offsetX, int offsetY);
 private:
-	std::shared_ptr<TileSheetData> BuildTileSheetData(xml_node<>* rootNode);
-	std::shared_ptr<MapTiles> BuildMapTiles(xml_node<>* rootNode);
-	std::pair<std::string, std::shared_ptr<Layer>>
-		BuildLayer(
-			xml_node<>* layerNode, std::shared_ptr<TileSheetData> tileSheetData
-		);
-	ResourceAllocator<sf::Texture>& textureAllocator;
+	std::map<int, char*> tileData;
+
 };
+
+
+#endif /* TileMapParser_hpp */
+
+

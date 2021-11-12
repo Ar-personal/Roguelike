@@ -28,7 +28,6 @@ void CollisionSystem::Update()
 
 		for (Entity entityB : mEntities) {
 			if (entityA == entityB) {
-				std::cout << "skipping self" << std::endl;
 				continue;
 			}
 

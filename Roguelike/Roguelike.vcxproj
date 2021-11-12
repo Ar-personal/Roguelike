@@ -122,6 +122,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\Users\Alex\Google Drive\Game Design\Roguelike\SDL2-2.0.14\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -153,17 +154,21 @@
     <ClCompile Include="Game.h" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Map.cpp" />
+    <ClCompile Include="Level.cpp" />
     <ClCompile Include="Maths.cpp" />
     <ClCompile Include="PhysicsSystem.cpp" />
     <ClCompile Include="PlayerControlSystem.cpp" />
     <ClCompile Include="RenderSystem.cpp" />
     <ClCompile Include="TextureManager.cpp" />
+    <ClCompile Include="Tile.cpp" />
+    <ClCompile Include="TileMapParser.cpp" />
     <ClCompile Include="Vector2D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\..\..\..\Dropbox\My PC (DESKTOP-4QN0EGJ)\Downloads\walker1.png" />
+    <Image Include="assets\iso-64x64-outside.png" />
     <Image Include="assets\mechsheet.png" />
+    <Image Include="assets\outside.png" />
     <Image Include="assets\player.png" />
   </ItemGroup>
   <ItemGroup>
@@ -178,7 +183,7 @@
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="KeyboardInput.h" />
-    <ClInclude Include="Map.h" />
+    <ClInclude Include="Level.h" />
     <ClInclude Include="Maths.h" />
     <ClInclude Include="PhysicsSystem.h" />
     <ClInclude Include="Player.h" />
@@ -195,9 +200,14 @@
     <ClInclude Include="Tile.h" />
     <ClInclude Include="TileMapParser.h" />
     <ClInclude Include="Tiler.h" />
+    <ClInclude Include="tileson.hpp" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Types.h" />
     <ClInclude Include="Vector2D.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\testmap.json" />
+    <None Include="assets\testmap.tmx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

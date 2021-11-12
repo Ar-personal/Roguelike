@@ -1,36 +1,15 @@
 #pragma once
-#include <SDL_rect.h>
+#include "TextureManager.h"
 
 class Tile {
 public:
 
-	SDL_Rect tileRect;
-	int tileID;
-	const char* path;
-	
-	Tile(int x, int y, int w, int h, int id) {
-		tileRect.x = x;
-		tileRect.y = y;
-		tileRect.w = w;
-		tileRect.h = h;
-		tileID = id;
-
-
-		switch (tileID) {
-		case 0:
-			path = "assets/grass.png";
-			break;
-		case 1:
-			path = "assets/grass2.png";
-			break;
-		case 2:
-			path = "assets/stone.png";
-			break;
-		default:
-			break;
+	SDL_Texture* texture;
+	SDL_Rect* src = new SDL_Rect;
+	int id;
 		
-		}
-	}
-
+		Tile();
+		Tile(const char* path, int x, int y, int w, int h, int id);
+		Tile(SDL_Texture* tex, int x, int y, int w, int h, int id);
 
 };
