@@ -15,6 +15,7 @@
 TileMapParser tileMapParser;
 Level* level;
 std::map<int, std::vector<Tile>> tileMap;
+SDL_Rect Game::camera = {0, 0, 1280, 720};
 
 SDL_Renderer* Game::renderer = nullptr;
 Coordinator gCoordinator;
@@ -186,8 +187,8 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 
 
 	std::map<int, std::string> tiles = tileMapParser.GetTileMap("assets/testmap.tmx", 0, 0);
-	level = new Level();
-	tileMap = level->CreateTileMap(tiles, tileMapParser.mapSizeX, tileMapParser.mapSizeY, 64);
+	level = new Level(camera);
+	tileMap = level->CreateTileMap(tiles, 25, 25, 64);
 }
 
 void Game::handleEvents(){
@@ -204,6 +205,7 @@ void Game::handleEvents(){
 }
 
 void Game::update(){
+
 	physicsSys->Update();
 	pControlSys->Update();
 	collisionSys->Update();

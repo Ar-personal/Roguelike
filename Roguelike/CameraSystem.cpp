@@ -19,7 +19,7 @@ void CameraSystem::Update()
 		auto& camera = gCoordinator.GetComponent<Camera>(entity);
 		auto& player = gCoordinator.GetComponent<Player>(entity);
 
-		camera.x = player.destRect.x - 400;
+		camera.x = player.destRect.x - 640;
 		camera.y = player.destRect.y - 320;
 
 

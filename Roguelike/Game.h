@@ -19,6 +19,7 @@ public:
 
 	static SDL_Renderer* renderer;
 	static SDL_Event event;
+	static SDL_Rect camera;
 
 	bool running() { return isRunning; }
 
