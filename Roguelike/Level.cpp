@@ -8,10 +8,17 @@
 #include <vector>
 #include <iostream>
 
+extern Coordinator gCoordinator;
+
 Level::Level() {
+}
+
+Level::Level(Entity entity) {
+	this->entity = entity;
 
 }
 
+int scale = 2;
 
 std::map<int, std::vector<Tile>> Level::CreateTileMap(std::map<int, std::string> tileData, int mapWidth, int mapHeight, int tileSize) {
 	const char* path = "assets/outside.png";
@@ -56,8 +63,8 @@ std::map<int, std::vector<Tile>> Level::CreateTileMap(std::map<int, std::string>
 				spriteSheetCoords.w = tileSize;
 				spriteSheetCoords.h = tileSize;
 
-				dst.x = (column * 32);
-				dst.y = (row * 32);
+				dst.x = (column * 32) * scale;
+				dst.y = (row * 32) * scale;
 
 				//squash y values for isometric affect
 				SDL_Point destination{ Maths::twoDToIso(dst.x, dst.y) };
@@ -125,8 +132,13 @@ void Level::DrawMap(std::map<int, std::vector<Tile>> tileMap, int mapSizeX, int 
 				if (tile.empty) {
 					continue;
 				}
-				tile.dst.x += 550;
-				tile.dst.y -= 120;
+
+				auto camera = gCoordinator.GetComponent<Camera>(entity);
+
+				tile.dst.x = tile.position.x - camera.x + 640;
+				tile.dst.y = tile.position.y - camera.y - 100;
+				tile.dst.w *= scale;
+				tile.dst.h *= scale;
 
 				TextureManager::Draw(tile.texture, src, tile.dst);
 				idx++;

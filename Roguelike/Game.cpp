@@ -11,10 +11,12 @@
 #include "Collision.h"
 #include "CollisionSystem.h"
 #include "TileMapParser.h"
+#include "CameraSystem.h"
 
 TileMapParser tileMapParser;
 Level* level;
 std::map<int, std::vector<Tile>> tileMap;
+Camera camera;
 
 SDL_Renderer* Game::renderer = nullptr;
 Coordinator gCoordinator;
@@ -23,6 +25,7 @@ std::shared_ptr<PhysicsSystem> physicsSys;
 std::shared_ptr<RenderSystem> renderSys;
 std::shared_ptr<PlayerControlSystem> pControlSys;
 std::shared_ptr<CollisionSystem> collisionSys;
+std::shared_ptr<CameraSystem> cameraSys;
 SDL_Event Game::event;
 
 Game::Game(){}
@@ -61,11 +64,13 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	gCoordinator.RegisterComponent<Transform>();
 	gCoordinator.RegisterComponent<Sprite>();
 	gCoordinator.RegisterComponent<Collision>();
+	gCoordinator.RegisterComponent<Camera>();
 
 	physicsSys = gCoordinator.RegisterSystem<PhysicsSystem>();
 	renderSys = gCoordinator.RegisterSystem<RenderSystem>();
 	pControlSys = gCoordinator.RegisterSystem <PlayerControlSystem>();
 	collisionSys = gCoordinator.RegisterSystem<CollisionSystem>();
+	cameraSys = gCoordinator.RegisterSystem<CameraSystem>();
 
 	{
 		Signature signature;
@@ -104,6 +109,17 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 
 	collisionSys->Init();
 
+
+	{
+		Signature signature;
+		signature.set(gCoordinator.GetComponentType<Transform>());
+		signature.set(gCoordinator.GetComponentType<Player>());
+		signature.set(gCoordinator.GetComponentType<Camera>());
+		gCoordinator.SetSystemSignature<CameraSystem>(signature);
+	}
+
+	cameraSys->Init();
+
 	Entity player;
 	Entity enemy;
 
@@ -112,6 +128,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 
 	gCoordinator.AddComponent(
 		player, Player{
+
 		});
 
 	gCoordinator.AddComponent(
@@ -121,8 +138,8 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 
 	gCoordinator.AddComponent(
 		player, Transform{
-			0,
-			0,
+			700,
+			300,
 			true,
 		});
 
@@ -180,13 +197,18 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 		});
 
 	gCoordinator.AddComponent(
+		player, Camera{
+			0, 0, 1280, 720
+		});
+
+	gCoordinator.AddComponent(
 		enemy, Collision{
 
 		});
 
 
 	std::map<int, std::string> tiles = tileMapParser.GetTileMap("assets/testmap.tmx", 0, 0);
-	level = new Level();
+	level = new Level(player);
 	tileMap = level->CreateTileMap(tiles, tileMapParser.mapSizeX, tileMapParser.mapSizeY, 64);
 }
 
@@ -207,6 +229,7 @@ void Game::update(){
 	physicsSys->Update();
 	pControlSys->Update();
 	collisionSys->Update();
+	cameraSys->Update();
 }
 
 void Game::render(){

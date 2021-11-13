@@ -69,9 +69,6 @@
     <ClCompile Include="CollisionSystem.cpp">
       <Filter>Source Files\ECS\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="CameraSystem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Game.h">
       <Filter>Header Files</Filter>
     </ClCompile>
@@ -80,6 +77,9 @@
     </ClCompile>
     <ClCompile Include="Tile.cpp">
       <Filter>Source Files\Tiles</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraSystem.cpp">
+      <Filter>Source Files\ECS\Systems</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -154,12 +154,6 @@
     <ClInclude Include="CollisionSystem.h">
       <Filter>Source Files\ECS\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CameraSystem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Tile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -195,6 +189,12 @@
     </ClInclude>
     <ClInclude Include="tileson.hpp">
       <Filter>Source Files\Tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraSystem.h">
+      <Filter>Source Files\ECS\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Source Files\ECS\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -10,17 +10,20 @@ extern Coordinator gCoordinator;
 
 void CameraSystem::Init()
 {
+
 }
 
-void CameraSystem::Update()
-{
+void CameraSystem::Update(){
+
 	for (Entity entity : mEntities) {
-		auto& transform = gCoordinator.GetComponent<Transform>(entity);
 		auto& camera = gCoordinator.GetComponent<Camera>(entity);
 		auto& player = gCoordinator.GetComponent<Player>(entity);
+		auto& transform = gCoordinator.GetComponent<Transform>(entity);
 
-		camera.x = player.destRect.x - 400;
-		camera.y = player.destRect.y - 320;
+		//doesnt make much sense because every camera will follow a particular player right now
+
+		camera.x = (player.destRect.x * transform.speed)  - 640;
+		camera.y = (player.destRect.y * transform.speed) - 360;
 
 
 		if (camera.x < 0) {
