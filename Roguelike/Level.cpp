@@ -20,61 +20,82 @@ std::map<int, std::vector<Tile>> Level::CreateTileMap(std::map<int, std::string>
 
 	std::map<int, Tile> tiles;
 	std::map<int, std::vector<Tile>> tileMap;
-	std::vector<std::string> tileVector;
+	std::vector<std::string> tileStringVector;
 	std::vector<Tile> tileObjectVector;
 
-	SDL_Texture* def = TextureManager::LoadTexture("assets/default.png");
+	SDL_Texture* def = TextureManager::LoadTexture("assets/void.png");
 
 	//temp code to calculate test spitesheet coords
-	int l;
 	int spriteSheetWidth = 10;
+	SDL_Rect spriteSheetCoords = { 0, 0, 64, 64 };
+	SDL_Rect dst = { 0, 0, 64, 64 };
 
 	for (int layer = 0; layer < tileData.size(); layer++) {
-		l = layer;
-		StringToVector(tileData[layer], ',', tileVector);
-		std::cout << layer << std::endl;
-		//loop through every tile ID in a layer
-		for (int j = 0; j < tileVector.size(); j++) {
-			
-			std::string s = tileVector[j];
-			int id = std::stoi(s);
-
-			int row = 0;
-			int column = 0;
-			int colIdx = 0;
-			for (int s = 0; s < id; s++) {
-				column += 64;
-				if (colIdx >= spriteSheetWidth) {
-					colIdx = 0;
-					column = 0;
-					row += 64;
+		StringToVector(tileData[layer], ',', tileStringVector);
+		int idx = 0;
+		for (int row = 0; row < mapHeight; row++) {
+			for (int column = 0; column < mapWidth; column++) {
+				std::string s = tileStringVector[idx];
+				int id = std::stoi(s);
+				//code calculates the coordinates of the tile in the spritesheet
+				int rowT = 0;
+				int colT = -64;
+				int colIdx = 0;
+				for (int s = 0; s < id; s++) {
+					colT += 64;
+					if (colIdx >= spriteSheetWidth) {
+						colIdx = 0;
+						colT = 0;
+						rowT += 64;
+					}
+					colIdx++;
 				}
-				colIdx++;
-			}
 
-			//null texture
-			if (id == 0) {
-				Tile t = Tile(def, column, row, tileSize, tileSize, id);
-				tileObjectVector.emplace_back(t);
-				continue;
-			}
+				spriteSheetCoords.x = colT;
+				spriteSheetCoords.y = rowT;
+				spriteSheetCoords.w = tileSize;
+				spriteSheetCoords.h = tileSize;
 
-			//check if we have loaded this tile type before
-			if (tiles.find(id) != tiles.end()){ 
-				//tile loaded before
-				Tile t = tiles[id];
-				tileObjectVector.emplace_back(t);
-			}else {
-				//new tile
-				//create new tile with id texture and position
-				Tile t = Tile(path, column, row, tileSize, tileSize, id);
-				tiles.emplace(id, t);
-				tileObjectVector.emplace_back(t);
+				dst.x = (column * 32);
+				dst.y = (row * 32);
+
+				//squash y values for isometric affect
+				SDL_Point destination{ Maths::twoDToIso(dst.x, dst.y) };
+				dst.x = destination.x;
+				dst.y = destination.y;
+
+				//null texture
+				if (id == -1) {
+					Tile t = Tile(def, dst, id);
+					t.empty = true;
+					tileObjectVector.emplace_back(t);
+					continue;
+				}
+				//check if we have loaded this tile type before
+				if (tiles.find(id) != tiles.end()) {
+					//tile loaded before created a tile with same texture and adjust its destination
+					Tile tile = Tile(tiles[id].texture, tiles[id].dst, tiles[id].id);
+					tile.dst.x = dst.x;
+					tile.dst.y = dst.y;
+					tile.position.x = dst.x;
+					tile.position.y = dst.y;
+					tileObjectVector.emplace_back(tile);
+				}
+				else {
+					//create new tile with id texture and position
+					Tile t = Tile(path, spriteSheetCoords, dst, id);
+					tiles.emplace(id, t);
+					tileObjectVector.emplace_back(t);
+				}
+				idx++;
 			}
 		}
-		tileMap.emplace(l, tileObjectVector);
+
+		std::cout << "creating tile at idx: " << idx << " layer: " << layer << std::endl;
+		tileMap.emplace(layer, tileObjectVector);
+		//reset the tile layer
 		tileObjectVector.clear();
-		tileVector.clear();
+		tileStringVector.clear();
 	}
 
 	return tileMap;
@@ -83,20 +104,12 @@ std::map<int, std::vector<Tile>> Level::CreateTileMap(std::map<int, std::string>
 
 //should destroy all tile objects
 Level::~Level() {
-	SDL_DestroyTexture(dirt);
-	SDL_DestroyTexture(grass);
-	SDL_DestroyTexture(water);
 }
 
 
 void Level::DrawMap(std::map<int, std::vector<Tile>> tileMap, int mapSizeX, int mapSizeY) {
-	SDL_Rect src, dst;
+	SDL_Rect src;
 	//change hard coded variables
-	dst.x = 0;
-	dst.y = 0;
-	dst.w = 64;
-	dst.h = 64;
-
 	src.x = 0;
 	src.y = 0;
 	src.w = 64;
@@ -105,17 +118,17 @@ void Level::DrawMap(std::map<int, std::vector<Tile>> tileMap, int mapSizeX, int 
 	int idx = 0;
 
 	for (int l = 0; l < tileMap.size(); l++) {
+		std::vector<Tile> tileObjectVector = tileMap[l];
 		for (int row = 0; row < mapSizeX; row++) {
 			for (int column = 0; column < mapSizeY; column++) {
-				Tile tile = tileMap[l][idx];
-				dst.x = column * 32;
-				dst.y = row * 32;
+				Tile tile = tileObjectVector[idx];
+				if (tile.empty) {
+					continue;
+				}
+				tile.dst.x += 550;
+				tile.dst.y -= 120;
 
-				SDL_Point destination{ Maths::twoDToIso(dst.x, dst.y) };
-				dst.x = destination.x;
-				dst.y = destination.y;
-
-				TextureManager::Draw(tile.texture, src, dst);
+				TextureManager::Draw(tile.texture, src, tile.dst);
 				idx++;
 			}
 		}

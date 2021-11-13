@@ -7,7 +7,7 @@ class TextureManager {
 
 		static SDL_Rect cropped;
 		static SDL_Texture* LoadTexture(const char* filename);
-		static SDL_Texture* LoadTextureFromSheet(const char* filename, int x, int y, int w, int h);
+		static SDL_Texture* LoadTextureFromSheet(const char* filename, SDL_Rect* src);
 		static void Draw(SDL_Texture* tex, SDL_Rect src, SDL_Rect dest);
 		static SDL_Texture* GetAreaTexture(SDL_Rect rect, SDL_Renderer* renderer, SDL_Texture* source);
 };

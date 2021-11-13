@@ -14,16 +14,13 @@ SDL_Texture* TextureManager::LoadTexture(const char* texture) {
 	return tex;
 }
 
-SDL_Texture* TextureManager::LoadTextureFromSheet(const char* filename, int x, int y, int w, int h)
+SDL_Texture* TextureManager::LoadTextureFromSheet(const char* filename, SDL_Rect* src)
 {
 	SDL_Surface* sprite_sheet = IMG_Load(filename);
 
 	SDL_Rect* cropped = new SDL_Rect;
 
-	cropped->w = w;
-	cropped->h = h;
-	cropped->x = x;
-	cropped->y = y;
+	cropped = src;
 
 	SDL_Surface* tempSurface2 = SDL_CreateRGBSurface(0, 64, 64, 32, 0xff, 0xff00, 0xff0000, 0xff000000);
 

@@ -212,7 +212,7 @@ void Game::update(){
 void Game::render(){
 	SDL_RenderClear(renderer);
 	//
-	level->DrawMap(tileMap, 25, 25);
+	level->DrawMap(tileMap, tileMapParser.mapSizeX, tileMapParser.mapSizeY);
 	renderSys->Render();
 	//player->Render();
 	//

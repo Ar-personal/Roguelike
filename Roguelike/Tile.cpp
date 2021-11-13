@@ -4,24 +4,24 @@ Tile::Tile() {
 
 }
 
-Tile::Tile(const char* path, int x, int y, int w, int h, int id) {
-	src->x = x;
-	src->y = y;
-	src->w = w;
-	src->h = h;
+Tile::Tile(const char* path, SDL_Rect src, SDL_Rect dst, int id) {
+	this->src = src;
+	this->dst = dst;
 
-	texture = TextureManager::LoadTextureFromSheet(path, x, y, w, h);
+	position.x = dst.x;
+	position.y = dst.y;
+
+	texture = TextureManager::LoadTextureFromSheet(path, &src);
 	this->id = id;
 }
 
-Tile::Tile(SDL_Texture* tex, int x, int y, int w, int h, int id)
+Tile::Tile(SDL_Texture* tex, SDL_Rect dst, int id)
 {
+	position.x = dst.x;
+	position.y = dst.y;
 	this->texture = tex;
 	this->id = id;
-	src->x = x;
-	src->y = y;
-	src->w = w;
-	src->h = h;
+	this->dst = dst;
 }
 
 
