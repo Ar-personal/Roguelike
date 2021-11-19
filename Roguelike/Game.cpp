@@ -12,9 +12,12 @@
 #include "CollisionSystem.h"
 #include "TileMapParser.h"
 #include "CameraSystem.h"
+#include "Mouse.h"
+#include "MouseControlSystem.h"
+#include "TileRenderSystem.h"
+#include "Maths.h"
 
 TileMapParser tileMapParser;
-Level* level;
 std::map<int, std::vector<Tile>> tileMap;
 Camera camera;
 
@@ -24,20 +27,29 @@ Coordinator gCoordinator;
 std::shared_ptr<PhysicsSystem> physicsSys;
 std::shared_ptr<RenderSystem> renderSys;
 std::shared_ptr<PlayerControlSystem> pControlSys;
+std::shared_ptr<MouseControlSystem> mouseControlSys;
 std::shared_ptr<CollisionSystem> collisionSys;
 std::shared_ptr<CameraSystem> cameraSys;
+std::shared_ptr<TileRenderSystem> tileRenderSys;
+
 SDL_Event Game::event;
 
 Game::Game(){}
 Game::~Game(){}
 
+int mapOffsetX = 0;
+int mapOffsetY = 0;
+int tileSize = 64;
+int scale = 2;
+
 void Game::init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen) {
+
 
 
 
 	int flags = 0;
 	if (fullscreen) {
-		flags = SDL_WINDOW_FULLSCREEN;
+		flags = SDL_WINDOW_RESIZABLE;
 	}
 
 	if (SDL_Init(SDL_INIT_EVERYTHING) == 0) {
@@ -58,6 +70,10 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 		isRunning = false;
 	}
 
+
+	std::map<int, std::string> tiles = tileMapParser.GetTileMap("assets/testmap.tmx", 0, 0);
+	tileMap = Level::CreateTileMap(tiles, tileMapParser.mapSizeX, tileMapParser.mapSizeY, tileSize, scale);
+
 	gCoordinator.Init();
 
 	gCoordinator.RegisterComponent<Player>();
@@ -65,12 +81,15 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	gCoordinator.RegisterComponent<Sprite>();
 	gCoordinator.RegisterComponent<Collision>();
 	gCoordinator.RegisterComponent<Camera>();
+	gCoordinator.RegisterComponent<Mouse>();
 
 	physicsSys = gCoordinator.RegisterSystem<PhysicsSystem>();
 	renderSys = gCoordinator.RegisterSystem<RenderSystem>();
 	pControlSys = gCoordinator.RegisterSystem <PlayerControlSystem>();
+	mouseControlSys = gCoordinator.RegisterSystem <MouseControlSystem>();
 	collisionSys = gCoordinator.RegisterSystem<CollisionSystem>();
 	cameraSys = gCoordinator.RegisterSystem<CameraSystem>();
+	tileRenderSys = gCoordinator.RegisterSystem<TileRenderSystem>();
 
 	{
 		Signature signature;
@@ -78,6 +97,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 		gCoordinator.SetSystemSignature<PhysicsSystem>(signature);
 
 	}
+
 	physicsSys->Init();
 
 	{
@@ -85,6 +105,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 		signature.set(gCoordinator.GetComponentType<Player>());
 		signature.set(gCoordinator.GetComponentType<Transform>());
 		signature.set(gCoordinator.GetComponentType<Sprite>());
+		signature.set(gCoordinator.GetComponentType<Camera>());
 		gCoordinator.SetSystemSignature<RenderSystem>(signature);
 	}
 
@@ -98,6 +119,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	}
 
 	pControlSys->Init();
+
 
 	{
 		Signature signature;
@@ -120,6 +142,25 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 
 	cameraSys->Init();
 
+	{
+		Signature signature;
+		signature.set(gCoordinator.GetComponentType<Player>());
+		signature.set(gCoordinator.GetComponentType<Mouse>());
+		gCoordinator.SetSystemSignature<MouseControlSystem>(signature);
+	}
+
+	mouseControlSys->Init();
+
+	{
+		Signature signature;
+		signature.set(gCoordinator.GetComponentType<Player>());
+		signature.set(gCoordinator.GetComponentType<Mouse>());
+		signature.set(gCoordinator.GetComponentType<Transform>());
+		gCoordinator.SetSystemSignature<TileRenderSystem>(signature);
+	}
+
+	tileRenderSys->Init(tileMap, tileMapParser.mapSizeX, tileMapParser.mapSizeY, 64, mapOffsetX, mapOffsetY, scale);
+
 	Entity player;
 	Entity enemy;
 
@@ -132,21 +173,40 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 		});
 
 	gCoordinator.AddComponent(
+		player, Mouse{
+			{0, 0},
+			false,
+			false
+		});
+
+	gCoordinator.AddComponent(
 		enemy, Player{
 
 		});
 
+
+	gCoordinator.AddComponent(
+		player, Collision{
+
+		});
+
+	gCoordinator.AddComponent(
+		player, Camera{
+			0, 0, 1280, 720
+		});
+
+
 	gCoordinator.AddComponent(
 		player, Transform{
-			700,
-			300,
+			0,
+			0,
 			true,
 		});
 
 	gCoordinator.AddComponent(
 		enemy, Transform{
-			200,
-			200,
+			0,
+			0,
 			false,
 			0,
 
@@ -190,26 +250,20 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 			TextureManager::LoadTexture("assets/player.png"),
 		});
 
-
-	gCoordinator.AddComponent(
-		player, Collision{
-
-		});
-
-	gCoordinator.AddComponent(
-		player, Camera{
-			0, 0, 1280, 720
-		});
-
 	gCoordinator.AddComponent(
 		enemy, Collision{
 
 		});
 
 
-	std::map<int, std::string> tiles = tileMapParser.GetTileMap("assets/testmap.tmx", 0, 0);
-	level = new Level(player);
-	tileMap = level->CreateTileMap(tiles, tileMapParser.mapSizeX, tileMapParser.mapSizeY, 64);
+
+	//handle tile coordinate and mouse coordinates
+	//do i need a mapsystem? mouse input system or component
+	//ability to render highlighted tiles differently so check layer x and y
+	//how to choose layer? choose top layer of tile unless its invisible so loop top down til visible
+	//player should be locked into center of tiles
+	//mouse position component, mouseSystem only for player components
+
 }
 
 void Game::handleEvents(){
@@ -220,13 +274,18 @@ void Game::handleEvents(){
 	case SDL_QUIT:
 		isRunning = false;
 		break;
+
+
 	default:
 		break;
 	}
 }
 
 void Game::update(){
+
+
 	physicsSys->Update();
+	mouseControlSys->Update();
 	pControlSys->Update();
 	collisionSys->Update();
 	cameraSys->Update();
@@ -235,8 +294,9 @@ void Game::update(){
 void Game::render(){
 	SDL_RenderClear(renderer);
 	//
-	level->DrawMap(tileMap, tileMapParser.mapSizeX, tileMapParser.mapSizeY);
+	tileRenderSys->Render();
 	renderSys->Render();
+
 	//player->Render();
 	//
 	SDL_RenderPresent(renderer);

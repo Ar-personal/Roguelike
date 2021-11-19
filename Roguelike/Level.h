@@ -16,15 +16,11 @@
 class Level {
 public:
 	Level();
-	Level(Entity entity);
 	~Level();
-	Entity entity;
 
-	std::map<int, std::vector<Tile>> CreateTileMap(std::map<int, std::string> tileData, int mapWidth, int mapHeight, int tileSize);
+	static std::map<int, std::vector<Tile>> CreateTileMap(std::map<int, std::string> tileData, int mapWidth, int mapHeight, int tileSize, int scale);
 	void DrawMap(std::map<int, std::vector<Tile>> tileMap, int mapSizeX, int mapSizeY);
-	void StringToVector(std::string& str, char delim, std::vector<std::string>& out);
+	static void StringToVector(std::string& str, char delim, std::vector<std::string>& out);
 private:
-
-	SDL_Texture* dirt, *grass, *water;
 
 };

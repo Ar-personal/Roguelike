@@ -11,16 +11,11 @@
 extern Coordinator gCoordinator;
 
 Level::Level() {
-}
-
-Level::Level(Entity entity) {
-	this->entity = entity;
 
 }
 
-int scale = 2;
 
-std::map<int, std::vector<Tile>> Level::CreateTileMap(std::map<int, std::string> tileData, int mapWidth, int mapHeight, int tileSize) {
+std::map<int, std::vector<Tile>> Level::CreateTileMap(std::map<int, std::string> tileData, int mapWidth, int mapHeight, int tileSize, int scale) {
 	const char* path = "assets/outside.png";
 	//create a reference to each new tile created to prevent re-creating the same tile however on new level creations this is reset,
 	//so maybe move tile references elsewhere
@@ -63,6 +58,7 @@ std::map<int, std::vector<Tile>> Level::CreateTileMap(std::map<int, std::string>
 				spriteSheetCoords.w = tileSize;
 				spriteSheetCoords.h = tileSize;
 
+				//scale the map
 				dst.x = (column * 32) * scale;
 				dst.y = (row * 32) * scale;
 
@@ -114,39 +110,6 @@ Level::~Level() {
 }
 
 
-void Level::DrawMap(std::map<int, std::vector<Tile>> tileMap, int mapSizeX, int mapSizeY) {
-	SDL_Rect src;
-	//change hard coded variables
-	src.x = 0;
-	src.y = 0;
-	src.w = 64;
-	src.h = 64;
-
-	int idx = 0;
-
-	for (int l = 0; l < tileMap.size(); l++) {
-		std::vector<Tile> tileObjectVector = tileMap[l];
-		for (int row = 0; row < mapSizeX; row++) {
-			for (int column = 0; column < mapSizeY; column++) {
-				Tile tile = tileObjectVector[idx];
-				if (tile.empty) {
-					continue;
-				}
-
-				auto camera = gCoordinator.GetComponent<Camera>(entity);
-
-				tile.dst.x = tile.position.x - camera.x + 640;
-				tile.dst.y = tile.position.y - camera.y - 100;
-				tile.dst.w *= scale;
-				tile.dst.h *= scale;
-
-				TextureManager::Draw(tile.texture, src, tile.dst);
-				idx++;
-			}
-		}
-		idx = 0;
-	}
-}
 
 void Level::StringToVector(std::string& str, char delim, std::vector<std::string>& out) {
 	size_t start;

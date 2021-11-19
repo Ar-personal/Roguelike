@@ -81,6 +81,12 @@
     <ClCompile Include="CameraSystem.cpp">
       <Filter>Source Files\ECS\Systems</Filter>
     </ClCompile>
+    <ClCompile Include="MouseControlSystem.cpp">
+      <Filter>Source Files\ECS\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="TileRenderSystem.cpp">
+      <Filter>Source Files\ECS\Systems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\player.png">
@@ -131,9 +137,6 @@
       <Filter>Source Files\ECS\Systems</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
-      <Filter>Source Files\ECS\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="KeyboardInput.h">
       <Filter>Source Files\ECS\Components</Filter>
     </ClInclude>
     <ClInclude Include="PlayerControlSystem.h">
@@ -195,6 +198,15 @@
     </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>Source Files\ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Mouse.h">
+      <Filter>Source Files\ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="MouseControlSystem.h">
+      <Filter>Source Files\ECS\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="TileRenderSystem.h">
+      <Filter>Source Files\ECS\Systems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

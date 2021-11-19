@@ -6,6 +6,7 @@
 #include "Game.h"
 #include "Transform.h"
 #include "Sprite.h"
+#include "Camera.h"
 
 extern Coordinator gCoordinator;
 
@@ -21,8 +22,7 @@ void RenderSystem::Render()
 		auto& player = gCoordinator.GetComponent<Player>(entity);
 		auto& transform = gCoordinator.GetComponent<Transform>(entity);
 		auto& sprite = gCoordinator.GetComponent<Sprite>(entity);
-
-
+		auto& camera = gCoordinator.GetComponent<Camera>(entity);
 
 
 
@@ -31,8 +31,9 @@ void RenderSystem::Render()
 		player.srcRect.x = 0;
 		player.srcRect.y = 0;
 
-		player.destRect.x = transform.xpos;
-		player.destRect.y = transform.ypos;
+
+		player.destRect.x = transform.xpos - camera.x;
+		player.destRect.y = transform.ypos - camera.y;
 		player.destRect.w = player.srcRect.w * 2;
 		player.destRect.h = player.srcRect.h * 2;
 

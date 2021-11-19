@@ -17,7 +17,6 @@ void PlayerControlSystem::Update()
 		auto& player = gCoordinator.GetComponent<Player>(entity);
 		auto& transform = gCoordinator.GetComponent<Transform>(entity);
 
-
 			switch (Game::event.type) {
 			case SDL_KEYDOWN:
 				switch (Game::event.key.keysym.sym) {
@@ -27,12 +26,15 @@ void PlayerControlSystem::Update()
 					break;
 				case SDLK_a:
 					transform.velocity.x = -1;
+					std::cout << "a" << std::endl;
 					break;
 				case SDLK_s:
 					transform.velocity.y = 1;
+					std::cout << "s" << std::endl;
 					break;
 				case SDLK_d:
 					transform.velocity.x = 1;
+					std::cout << "d" << std::endl;
 					break;
 				default:
 					break;

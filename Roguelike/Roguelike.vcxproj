@@ -156,12 +156,14 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="Maths.cpp" />
+    <ClCompile Include="MouseControlSystem.cpp" />
     <ClCompile Include="PhysicsSystem.cpp" />
     <ClCompile Include="PlayerControlSystem.cpp" />
     <ClCompile Include="RenderSystem.cpp" />
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="TileMapParser.cpp" />
+    <ClCompile Include="TileRenderSystem.cpp" />
     <ClCompile Include="Vector2D.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -182,9 +184,10 @@
     <ClInclude Include="ECS.h" />
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="GameObject.h" />
-    <ClInclude Include="KeyboardInput.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="Maths.h" />
+    <ClInclude Include="Mouse.h" />
+    <ClInclude Include="MouseControlSystem.h" />
     <ClInclude Include="PhysicsSystem.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerControlSystem.h" />
@@ -200,6 +203,7 @@
     <ClInclude Include="Tile.h" />
     <ClInclude Include="TileMapParser.h" />
     <ClInclude Include="Tiler.h" />
+    <ClInclude Include="TileRenderSystem.h" />
     <ClInclude Include="tileson.hpp" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Types.h" />
