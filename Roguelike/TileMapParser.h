@@ -7,6 +7,7 @@
 #include "Tile.h"
 #include <string>
 #include <map>
+#include <vector>
 using namespace rapidxml;
 
 
@@ -23,9 +24,10 @@ public:
 
 		TileMapParser();
 		std::map<int, std::string> GetTileMap(const std::string& file, int offsetX, int offsetY);
+		std::map<int, std::string> GetLevelColliders();
 private:
 	std::map<int, char*> tileData;
-
+	std::map<int, std::string> tileObjectData;
 };
 
 

@@ -11,6 +11,7 @@ public:
 	SDL_Rect dst;
 	int id;
 	bool empty = false;
+	bool collider = false;
 		
 	Tile();
 	Tile(const char* path, SDL_Rect src, SDL_Rect dst, int id);

@@ -15,7 +15,7 @@ Level::Level() {
 }
 
 
-std::map<int, std::vector<Tile>> Level::CreateTileMap(std::map<int, std::string> tileData, int mapWidth, int mapHeight, int tileSize, int scale) {
+std::map<int, std::vector<Tile>> Level::CreateTileMap(std::map<int, std::string> tileData, std::map<int, std::string> tileObjectData, int mapWidth, int mapHeight, int tileSize, int scale) {
 	const char* path = "assets/outside.png";
 	//create a reference to each new tile created to prevent re-creating the same tile however on new level creations this is reset,
 	//so maybe move tile references elsewhere
@@ -23,6 +23,7 @@ std::map<int, std::vector<Tile>> Level::CreateTileMap(std::map<int, std::string>
 	std::map<int, Tile> tiles;
 	std::map<int, std::vector<Tile>> tileMap;
 	std::vector<std::string> tileStringVector;
+	std::vector<std::string> tileObjectStringVector;
 	std::vector<Tile> tileObjectVector;
 
 	SDL_Texture* def = TextureManager::LoadTexture("assets/void.png");
@@ -34,6 +35,7 @@ std::map<int, std::vector<Tile>> Level::CreateTileMap(std::map<int, std::string>
 
 	for (int layer = 0; layer < tileData.size(); layer++) {
 		StringToVector(tileData[layer], ',', tileStringVector);
+		StringToVector(tileObjectData[layer], ',', tileObjectStringVector);
 		int idx = 0;
 		for (int row = 0; row < mapHeight; row++) {
 			for (int column = 0; column < mapWidth; column++) {
@@ -67,9 +69,22 @@ std::map<int, std::vector<Tile>> Level::CreateTileMap(std::map<int, std::string>
 				dst.x = destination.x;
 				dst.y = destination.y;
 
+				Tile t;
+				bool collider = false;
+
+				//if tile at same layer and position as object is non-zero for now its a colldier
+				std::string tileID = tileObjectStringVector[idx];
+				int objId = std::stoi(tileID);
+				if (objId != 0) {
+					collider = true;
+				}
+				else {
+					collider = false;
+				}
+
 				//null texture
 				if (id == -1) {
-					Tile t = Tile(def, dst, id);
+					t = Tile(def, dst, id);
 					t.empty = true;
 					tileObjectVector.emplace_back(t);
 					continue;
@@ -77,16 +92,18 @@ std::map<int, std::vector<Tile>> Level::CreateTileMap(std::map<int, std::string>
 				//check if we have loaded this tile type before
 				if (tiles.find(id) != tiles.end()) {
 					//tile loaded before created a tile with same texture and adjust its destination
-					Tile tile = Tile(tiles[id].texture, tiles[id].dst, tiles[id].id);
-					tile.dst.x = dst.x;
-					tile.dst.y = dst.y;
-					tile.position.x = dst.x;
-					tile.position.y = dst.y;
-					tileObjectVector.emplace_back(tile);
+					t = Tile(tiles[id].texture, tiles[id].dst, tiles[id].id);
+					t.dst.x = dst.x;
+					t.dst.y = dst.y;
+					t.position.x = dst.x;
+					t.position.y = dst.y;
+					t.collider = collider;
+					tileObjectVector.emplace_back(t);
 				}
 				else {
 					//create new tile with id texture and position
-					Tile t = Tile(path, spriteSheetCoords, dst, id);
+					t = Tile(path, spriteSheetCoords, dst, id);
+					t.collider = collider;
 					tiles.emplace(id, t);
 					tileObjectVector.emplace_back(t);
 				}
@@ -100,6 +117,8 @@ std::map<int, std::vector<Tile>> Level::CreateTileMap(std::map<int, std::string>
 		tileObjectVector.clear();
 		tileStringVector.clear();
 	}
+
+
 
 	return tileMap;
 }

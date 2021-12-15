@@ -41,7 +41,23 @@ void TileRenderSystem::Render(){
 		cameraX = player.camera.x;
 		cameraY = player.camera.y;
 
+		//figure out player coords
 
+		SDL_Point playerDestination{ Maths::isoTo2D(player.destRect.x + cameraX, player.destRect.y + cameraY) };
+		player.mapPosition.x = playerDestination.x;
+		player.mapPosition.y = playerDestination.y;
+
+		int pNormX = playerDestination.x / (32 * scale);
+		int pNormY = playerDestination.y / (32 * scale);
+
+		player.mapPositionScaled.x = pNormX;
+		player.mapPositionScaled.y = pNormY;
+
+		player.mapIndex = getTileIndex(tileMap, pNormX, pNormY);
+
+
+		std::cout << "player map x: " << player.mapPosition.x <<  " player map y: " << player.mapPosition.y << std::endl;
+		std::cout << "player map index " << player.mapIndex << std::endl;
 		if (mouse.rightClicked) {
 			//camera coords chould be topleft corner of the map at camera position
 			cameraX = player.camera.x;
@@ -59,10 +75,12 @@ void TileRenderSystem::Render(){
 
 			int screenX = (destination.x / (32 * scale));
 			int screenY = (destination.y / (32 * scale));
+			player.destinationTile.x = screenX;
+			player.destinationTile.y = screenY;
 
 			int t = getTileIndex(tileMap, screenX, screenY);
 
-			if (t >= 0) {
+			if (t >= 0 && t < mapSizeX * mapSizeY) {
 				SDL_Texture* def = TextureManager::LoadTexture("assets/grass.png");
 				tileMap[0][t].texture = def;
 			}
@@ -84,12 +102,15 @@ void TileRenderSystem::DrawMap(std::map<int, std::vector<Tile>> tileMap, int cam
 	int idx = 0;
 
 	for (int l = 0; l < tileMap.size(); l++) {
-		std::vector<Tile> tileObjectVector = tileMap[0];
+		std::vector<Tile> tileObjectVector = tileMap[l];
 		for (int row = 0; row < mapSizeX; row++) {
 			for (int column = 0; column < mapSizeY; column++) {
 				Tile tile = tileObjectVector[idx];
 				if (tile.empty) {
 					continue;
+				}
+				if (tile.collider) {
+					tile.texture = TextureManager::LoadTexture("assets/grass.png");
 				}
 
 				tile.dst.x = tile.position.x - cameraX;
@@ -105,19 +126,6 @@ void TileRenderSystem::DrawMap(std::map<int, std::vector<Tile>> tileMap, int cam
 	}
 }
 
-Tile TileRenderSystem::getTileAtIndex(std::map<int, std::vector<Tile>> tileMap, int x, int y) {
-	Tile t;
-	std::vector<Tile> layer = tileMap[0];
-
-	int idx = 0;
-	for (int i = 0; i <= y; i++) {
-		for (int j = 0; j <= x; j++) {
-			t = layer[idx -1];
-			idx++;
-		}
-	}
-	return t;
-}
 
 
 int TileRenderSystem::getTileIndex(std::map<int, std::vector<Tile>> tileMap, int x, int y) {

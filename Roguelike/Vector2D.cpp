@@ -35,6 +35,11 @@ Vector2D& Vector2D::Divide(const Vector2D& vec) {
 	return *this;
 }
 
+float Vector2D::Length(const Vector2D& vec) {
+	return std::sqrt((vec.x * vec.x) + (vec.y * vec.y));
+}
+
+
 Vector2D& operator+(Vector2D& v1, const Vector2D& v2) {
 	return  v1.Add(v2);
 }

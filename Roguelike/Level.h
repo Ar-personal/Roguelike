@@ -18,7 +18,7 @@ public:
 	Level();
 	~Level();
 
-	static std::map<int, std::vector<Tile>> CreateTileMap(std::map<int, std::string> tileData, int mapWidth, int mapHeight, int tileSize, int scale);
+	static std::map<int, std::vector<Tile>> CreateTileMap(std::map<int, std::string> tileData, std::map<int, std::string> tileObjectData, int mapWidth, int mapHeight, int tileSize, int scale);
 	void DrawMap(std::map<int, std::vector<Tile>> tileMap, int mapSizeX, int mapSizeY);
 	static void StringToVector(std::string& str, char delim, std::vector<std::string>& out);
 private:

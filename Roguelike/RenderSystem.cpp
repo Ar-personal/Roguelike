@@ -38,51 +38,63 @@ void RenderSystem::Render()
 		player.destRect.h = player.srcRect.h * 2;
 
 
-		if (transform.velocity.x > 0) {
-			player.srcRect.h = 64;
-			player.srcRect.w = 64;
-			player.srcRect.x = sprite.rightx;
-			player.srcRect.y = sprite.righty;
 
-			if (transform.velocity.y > 0) {
-				player.srcRect.h = 64;
-				player.srcRect.w = 64;
-				player.srcRect.x = sprite.downRightx;
-				player.srcRect.y = sprite.downRighty;
-			}else
+		if (sprite.animated) {
 
-			if (transform.velocity.y < 0) {
-				player.srcRect.h = 64;
-				player.srcRect.w = 64;
-				player.srcRect.x = sprite.upRightx;
-				player.srcRect.y = sprite.upRighty;
+			if (transform.velocity.x == 0 && transform.velocity.y == 0) {
+				player.srcRect.x = player.srcRect.w * 4;
+				player.srcRect.y = 0;
+				SDL_RenderCopy(Game::renderer, sprite.sheet, &player.srcRect, &player.destRect);
+				return;
 			}
 
-		}
 
-		if (transform.velocity.x < 0) {
-			player.srcRect.h = 64;
-			player.srcRect.w = 64;
-			player.srcRect.x = sprite.leftx;
-			player.srcRect.y = sprite.lefty;
+			if (transform.velocity.x == 0) {
+				//moving down
+				if (transform.velocity.y > 0) {
+					player.srcRect.y = player.srcRect.h * 0;
+				}
 
-
-			if (transform.velocity.y > 0) {
-				player.srcRect.h = 64;
-				player.srcRect.w = 64;
-				player.srcRect.x = sprite.downLeftx;
-				player.srcRect.y = sprite.downLefty;
-			}else
-
-			if (transform.velocity.y < 0) {
-				player.srcRect.h = 64;
-				player.srcRect.w = 64;
-				player.srcRect.x = sprite.upLeftx;
-				player.srcRect.y = sprite.upLefty;
+				//moving up
+				if (transform.velocity.y < 0) {
+					player.srcRect.y = player.srcRect.h * 4;
+				}
 			}
+
+			//moving right
+			if (transform.velocity.x > 0) {
+				player.srcRect.y = player.srcRect.h * 2;
+
+					//moving right down
+					if (transform.velocity.y > 0) {
+						player.srcRect.y = player.srcRect.h * 1;
+					}
+					else
+
+					//moving right up
+					if (transform.velocity.y < 0) {
+						player.srcRect.y = player.srcRect.h * 3;
+					}
+
+
+			}
+
+			//moving left
+			if (transform.velocity.x < 0) {
+				player.srcRect.y = player.srcRect.h * 6;
+					//moving left up
+					if (transform.velocity.y > 0) {
+						player.srcRect.y = player.srcRect.h * 7;
+					}
+					else
+						//moving left down
+					if (transform.velocity.y < 0) {
+						player.srcRect.y = player.srcRect.h * 5;
+					}
+			}
+
+			player.srcRect.x = player.srcRect.w * static_cast<int> ((SDL_GetTicks() / sprite.speed) % sprite.frames);
 		}
-
-
 
 			SDL_RenderCopy(Game::renderer, sprite.sheet, &player.srcRect, &player.destRect);
 		

@@ -1,5 +1,6 @@
 #pragma once
 #include "Vector2D.h"
+#include <SDL_rect.h>
 struct Transform
 {
 	float xpos = 0;
@@ -10,6 +11,8 @@ struct Transform
 	float startY;
 	bool init = false;
 
-	Vector2D velocity = Vector2D();
 	Vector2D position = Vector2D();
+	Vector2D destination = Vector2D();
+	Vector2D velocity = Vector2D();
+	Vector2D previousPos = Vector2D();
 };

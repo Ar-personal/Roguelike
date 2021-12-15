@@ -18,9 +18,10 @@ public:
 	void DrawMap(std::map<int, std::vector<Tile>> tileMap, int cameraX, int cameraY, int mapSizeX, int mapSizeY, int mapOffsetX, int mapOffsetY, int playerMovedX, int playerMovedY);
 
 	std::map<int, std::vector<Tile>> tileMap;
+	std::map<int, std::vector<SDL_Rect>> levelColliders;
 	int mapSizeX, mapSizeY, tileSize, cameraX, cameraY, mapOffsetX, mapOffsetY, scale;
 
-	Tile getTileAtIndex(std::map<int, std::vector<Tile>> tileMap, int x, int y);
+	Tile getTileAtIndex(int x, int y);
 
 	int getTileIndex(std::map<int, std::vector<Tile>> tileMap, int x, int y);
 

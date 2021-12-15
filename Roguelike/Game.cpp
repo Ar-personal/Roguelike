@@ -72,7 +72,8 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 
 
 	std::map<int, std::string> tiles = tileMapParser.GetTileMap("assets/testmap.tmx", 0, 0);
-	tileMap = Level::CreateTileMap(tiles, tileMapParser.mapSizeX, tileMapParser.mapSizeY, tileSize, scale);
+	std::map<int, std::string> levelColliders = tileMapParser.GetLevelColliders();
+	tileMap = Level::CreateTileMap(tiles, levelColliders, tileMapParser.mapSizeX, tileMapParser.mapSizeY, tileSize, scale);
 
 	gCoordinator.Init();
 
@@ -118,7 +119,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 		gCoordinator.SetSystemSignature<PlayerControlSystem>(signature);
 	}
 
-	pControlSys->Init();
+	pControlSys->Init(tileMap);
 
 
 	{
@@ -129,7 +130,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 		gCoordinator.SetSystemSignature<CollisionSystem>(signature);
 	}
 
-	collisionSys->Init();
+	collisionSys->Init(tileMap, levelColliders);
 
 
 	{
@@ -169,7 +170,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 
 	gCoordinator.AddComponent(
 		player, Player{
-
+			0,
 		});
 
 	gCoordinator.AddComponent(
@@ -215,39 +216,16 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 
 	gCoordinator.AddComponent(
 		player, Sprite{
-			8,
 			TextureManager::LoadTexture("assets/mechsheet.png"),
-
-			0,
-			0,
-
-			0,
-			64,
-
-			0,
-			64 * 2,
-
-			0,
-			64 * 3,
-
-			0,
-			64 * 4,
-
-			0,
-			64 * 5,
-
-			0,
-			64 * 6,
-
-			0,
-			64 * 7,
-
+			true,
+			15,
+			60,
 		});
 
 	gCoordinator.AddComponent(
 		enemy, Sprite{
-			1,
 			TextureManager::LoadTexture("assets/player.png"),
+			false,
 		});
 
 	gCoordinator.AddComponent(

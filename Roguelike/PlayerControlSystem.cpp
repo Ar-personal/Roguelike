@@ -6,8 +6,9 @@
 
 extern Coordinator gCoordinator;
 
-void PlayerControlSystem::Init()
+void PlayerControlSystem::Init(std::map<int, std::vector<Tile>> tileMap)
 {
+	this->tileMap = tileMap;
 }
 
 void PlayerControlSystem::Update()
@@ -16,6 +17,44 @@ void PlayerControlSystem::Update()
 
 		auto& player = gCoordinator.GetComponent<Player>(entity);
 		auto& transform = gCoordinator.GetComponent<Transform>(entity);
+
+
+		if (player.mapPosition.x != player.destinationTile.x || player.mapPosition.y != player.destinationTile.y) {
+			//the player is not at the tired it desires to move to
+			//player map pos starts at -9 for some reason
+			if (player.mapPositionScaled.x < 0) {
+				player.mapPositionScaled.x = 0;
+			}
+
+			if (player.mapPositionScaled.y < 0) {
+				player.mapPositionScaled.y = 0;
+			}
+
+			int diffX = player.destinationTile.x - player.mapPositionScaled.x;
+			int diffY = player.destinationTile.y - player.mapPositionScaled.y;
+			std::cout << "tile distances: " << diffX << " " << diffY;
+
+
+
+
+		//try to move along the x axis
+			if (diffX > 0) {
+				int x = getTileIndex(tileMap, player.mapPositionScaled.x, player.mapPositionScaled.y);
+				//within map bounds
+				if(x + 1 < 25)
+					//tile on the players level is not walkable
+					if (tileMap[player.level][x + 1].collider) {
+						transform.canMove = false;
+					}
+						//walkable tile
+					else {
+						transform.canMove = true;
+						transform.destination = {(float) player.mapPositionScaled.x + 1, (float) player.mapPositionScaled.y };
+					
+				}
+			}
+		}
+
 
 			switch (Game::event.type) {
 			case SDL_KEYDOWN:
@@ -72,4 +111,8 @@ void PlayerControlSystem::Update()
 				break;
 			}
 		}
+}
+
+int PlayerControlSystem::getTileIndex(std::map<int, std::vector<Tile>> tileMap, int x, int y) {
+	return (y * 25 + x);
 }
